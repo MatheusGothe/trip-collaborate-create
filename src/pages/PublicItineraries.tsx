@@ -116,8 +116,8 @@ const PublicItineraries = () => {
   const filteredItineraries = publicItineraries.filter(itinerary => {
     const matchesSearch = itinerary.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          itinerary.destination.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDestination = !selectedDestination || itinerary.destination.includes(selectedDestination);
-    const matchesStyle = !selectedStyle || itinerary.style === selectedStyle;
+    const matchesDestination = !selectedDestination || selectedDestination === "all" || itinerary.destination.includes(selectedDestination);
+    const matchesStyle = !selectedStyle || selectedStyle === "all" || itinerary.style === selectedStyle;
     
     return matchesSearch && matchesDestination && matchesStyle;
   });
@@ -188,7 +188,7 @@ const PublicItineraries = () => {
                     <SelectValue placeholder="Todos os destinos" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Todos os destinos</SelectItem>
+                    <SelectItem value="all">Todos os destinos</SelectItem>
                     <SelectItem value="Europa">Europa</SelectItem>
                     <SelectItem value="Ásia">Ásia</SelectItem>
                     <SelectItem value="América">América</SelectItem>
@@ -205,7 +205,7 @@ const PublicItineraries = () => {
                     <SelectValue placeholder="Todos os estilos" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Todos os estilos</SelectItem>
+                    <SelectItem value="all">Todos os estilos</SelectItem>
                     <SelectItem value="Turismo">Turismo</SelectItem>
                     <SelectItem value="Romântico">Romântico</SelectItem>
                     <SelectItem value="Aventura">Aventura</SelectItem>
