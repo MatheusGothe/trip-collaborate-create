@@ -8,35 +8,58 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Travel-inspired design system with ocean blues and warm accents */
+    --background: 220 20% 98%;
+    --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Ocean blue primary palette */
+    --primary: 200 85% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 200 85% 55%;
+    --primary-dark: 200 85% 35%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft secondary colors */
+    --secondary: 220 15% 96%;
+    --secondary-foreground: 215 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 15% 96%;
+    --muted-foreground: 215 10% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Travel accent colors */
+    --accent: 45 90% 65%;
+    --accent-foreground: 215 25% 15%;
+    --accent-orange: 25 95% 60%;
+    --accent-green: 155 75% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 15% 90%;
+    --input: 220 15% 94%;
+    --ring: 200 85% 45%;
 
-    --radius: 0.5rem;
+    /* Travel-themed gradients */
+    --gradient-ocean: linear-gradient(135deg, hsl(200 85% 45%), hsl(185 85% 55%));
+    --gradient-sunset: linear-gradient(135deg, hsl(25 95% 60%), hsl(45 90% 65%));
+    --gradient-sky: linear-gradient(180deg, hsl(220 20% 98%), hsl(200 85% 95%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 15% 98%));
+
+    /* Enhanced shadows */
+    --shadow-travel: 0 10px 30px -5px hsl(200 85% 45% / 0.2);
+    --shadow-card: 0 4px 20px -2px hsl(200 25% 25% / 0.1);
+    --shadow-button: 0 4px 15px -3px hsl(200 85% 45% / 0.3);
+
+    /* Animation variables */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
