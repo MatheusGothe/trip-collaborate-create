@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   Plane, 
   ArrowLeft, 
@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -80,8 +81,7 @@ const Profile = () => {
   };
 
   const handleUpgradeSubscription = () => {
-    // Aqui redirecionaria para o checkout
-    alert("Redirecionando para o checkout...");
+    navigate("/payment");
   };
 
   return (

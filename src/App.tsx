@@ -10,6 +10,7 @@ import CreateItinerary from "./pages/CreateItinerary";
 import ItineraryDetail from "./pages/ItineraryDetail";
 import PublicItineraries from "./pages/PublicItineraries";
 import Profile from "./pages/Profile";
+import Payment from "./pages/Payment";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/itinerary/:id" element={<ItineraryDetail />} />
           <Route path="/explore" element={<PublicItineraries />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
