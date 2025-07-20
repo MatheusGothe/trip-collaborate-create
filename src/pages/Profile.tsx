@@ -20,7 +20,11 @@ import {
   Bell, 
   Shield, 
   Trash2,
-  AlertTriangle
+  AlertTriangle,
+  CreditCard,
+  Crown,
+  Check,
+  X
 } from "lucide-react";
 
 const Profile = () => {
@@ -46,6 +50,12 @@ const Profile = () => {
       profilePublic: true,
       itinerariesPublic: false,
       showEmail: false
+    },
+    subscription: {
+      isActive: true,
+      plan: "Premium",
+      renewalDate: "2024-12-15",
+      price: 29.90
     }
   });
 
@@ -58,6 +68,20 @@ const Profile = () => {
   const handleDeleteAccount = () => {
     // Aqui deletaria a conta
     alert("Conta deletada! (Funcionalidade simulada)");
+  };
+
+  const handleCancelSubscription = () => {
+    // Aqui cancelaria a subscription
+    setUserData({
+      ...userData,
+      subscription: { ...userData.subscription, isActive: false }
+    });
+    alert("Subscription cancelada com sucesso!");
+  };
+
+  const handleUpgradeSubscription = () => {
+    // Aqui redirecionaria para o checkout
+    alert("Redirecionando para o checkout...");
   };
 
   return (
@@ -419,6 +443,152 @@ const Profile = () => {
                   />
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Subscription Management */}
+          <Card className="bg-gradient-card shadow-card">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <CreditCard className="h-5 w-5 mr-2" />
+                Gerenciar Assinatura
+              </CardTitle>
+              <CardDescription>
+                Controle sua assinatura e planos premium
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Current Plan Status */}
+              <div className="border rounded-lg p-4 bg-primary/5">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-2">
+                    <Crown className={`h-5 w-5 ${userData.subscription.isActive ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <h3 className="font-semibold text-lg">
+                      {userData.subscription.isActive ? `Plano ${userData.subscription.plan}` : 'Plano Gratuito'}
+                    </h3>
+                  </div>
+                  {userData.subscription.isActive && (
+                    <div className="flex items-center space-x-1 text-primary">
+                      <Check className="h-4 w-4" />
+                      <span className="text-sm font-medium">Ativo</span>
+                    </div>
+                  )}
+                </div>
+                
+                {userData.subscription.isActive ? (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Preço:</span>
+                      <span className="font-medium">R$ {userData.subscription.price.toFixed(2)}/mês</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Próxima renovação:</span>
+                      <span className="font-medium">{new Date(userData.subscription.renewalDate).toLocaleDateString('pt-BR')}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Você está usando o plano gratuito. Faça upgrade para acessar recursos premium!
+                  </p>
+                )}
+              </div>
+
+              {/* Plan Features Comparison */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="border rounded-lg p-4">
+                  <h4 className="font-semibold mb-3 flex items-center">
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full mr-2"></div>
+                    Plano Gratuito
+                  </h4>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-center">
+                      <Check className="h-3 w-3 mr-2" />
+                      Até 3 roteiros
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="h-3 w-3 mr-2" />
+                      Funcionalidades básicas
+                    </li>
+                    <li className="flex items-center">
+                      <X className="h-3 w-3 mr-2" />
+                      IA para sugestões
+                    </li>
+                    <li className="flex items-center">
+                      <X className="h-3 w-3 mr-2" />
+                      Exportar roteiros
+                    </li>
+                  </ul>
+                </div>
+
+                <div className={`border rounded-lg p-4 ${userData.subscription.isActive ? 'border-primary bg-primary/5' : ''}`}>
+                  <h4 className="font-semibold mb-3 flex items-center">
+                    <Crown className="h-4 w-4 mr-2 text-primary" />
+                    Plano Premium
+                  </h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center">
+                      <Check className="h-3 w-3 mr-2 text-primary" />
+                      Roteiros ilimitados
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="h-3 w-3 mr-2 text-primary" />
+                      IA para sugestões personalizadas
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="h-3 w-3 mr-2 text-primary" />
+                      Exportar em PDF/Excel
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="h-3 w-3 mr-2 text-primary" />
+                      Suporte prioritário
+                    </li>
+                  </ul>
+                  <div className="mt-3 font-semibold text-primary">
+                    R$ 29,90/mês
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <Separator />
+              <div className="flex flex-col sm:flex-row gap-3">
+                {userData.subscription.isActive ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      onClick={handleCancelSubscription}
+                      className="flex-1"
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Cancelar Assinatura
+                    </Button>
+                    <Button
+                      onClick={handleUpgradeSubscription}
+                      className="flex-1 bg-gradient-ocean"
+                    >
+                      <CreditCard className="h-4 w-4 mr-2" />
+                      Alterar Plano
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={handleUpgradeSubscription}
+                    className="w-full bg-gradient-ocean animate-fade-in"
+                  >
+                    <Crown className="h-4 w-4 mr-2" />
+                    Fazer Upgrade para Premium
+                  </Button>
+                )}
+              </div>
+
+              {userData.subscription.isActive && (
+                <Alert>
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertDescription>
+                    Ao cancelar, você terá acesso aos recursos premium até {new Date(userData.subscription.renewalDate).toLocaleDateString('pt-BR')}.
+                  </AlertDescription>
+                </Alert>
+              )}
             </CardContent>
           </Card>
 
