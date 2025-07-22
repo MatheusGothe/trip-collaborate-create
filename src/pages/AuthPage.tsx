@@ -6,13 +6,16 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Link, useNavigate } from "react-router-dom";
 import { Plane, Mail, Lock, User, Chrome } from "lucide-react";
-
+import { useAuthStore } from "@/store/useAuthStore";
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  const {user,setUser } = useAuthStore();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+
     // Simular login/cadastro
     navigate("/dashboard");
   };

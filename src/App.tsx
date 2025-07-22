@@ -13,10 +13,19 @@ import PublicItineraries from "./pages/PublicItineraries";
 import Profile from "./pages/Profile";
 import Payment from "./pages/Payment";
 import NotFound from "./pages/NotFound";
+import { useAuthStore } from "./store/useAuthStore";
+import PrivateRoute from "./routes/privateRoutes";
+import PublicRoute from "./routes/publicRoutes";
+
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  
+  const {user,setUser } = useAuthStore();
+
+  
+  return (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider
       attribute="class"
@@ -28,21 +37,32 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/create" element={<CreateItinerary />} />
-            <Route path="/itinerary/:id" element={<ItineraryDetail />} />
-            <Route path="/explore" element={<PublicItineraries />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+        <Routes>
+  {/* Rota pública (visível só quando deslogado) */}
+  <Route element={<PublicRoute />}>
+    <Route path="/auth" element={<AuthPage />} />
+  </Route>
+
+  {/* Rota pública geral */}
+  <Route path="/" element={<LandingPage />} />
+
+  {/* Rotas privadas (precisa estar logado) */}
+  <Route element={<PrivateRoute />}>
+    <Route path="/dashboard" element={<Dashboard />} />
+    <Route path="/create" element={<CreateItinerary />} />
+    <Route path="/itinerary/:id" element={<ItineraryDetail />} />
+    <Route path="/explore" element={<PublicItineraries />} />
+    <Route path="/profile" element={<Profile />} />
+    <Route path="/payment" element={<Payment />} />
+  </Route>
+
+  {/* Rota para 404 */}
+  <Route path="*" element={<NotFound />} />
+</Routes>
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
-);
+)}
 
 export default App;
