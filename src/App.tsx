@@ -14,15 +14,27 @@ import Profile from "./pages/Profile";
 import Payment from "./pages/Payment";
 import NotFound from "./pages/NotFound";
 import { useAuthStore } from "./store/useAuthStore";
-import PrivateRoute from "./routes/privateRoutes";
-import PublicRoute from "./routes/publicRoutes";
+import PrivateRoute from "./routes/PrivateRoutes.tsx";
+import PublicRoute from "./routes/PublicRoutes.tsx";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '@/lib/firebase.js';
 
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  
+
   const {user,setUser } = useAuthStore();
+
+  useEffect(() => {
+    setUser(auth.currentUser)
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser); // atualiza o Zustand
+    });
+
+    return () => unsubscribe(); // limpa o listener ao desmontar
+  }, [setUser]);
 
   
   return (

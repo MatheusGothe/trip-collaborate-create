@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThemeToggle from "@/components/ThemeToggle";
 import { 
   Plane, 
@@ -14,8 +14,15 @@ import {
   Share2,
   Edit3
 } from "lucide-react";
+import { signOut } from "firebase/auth";
+import { useAuthStore } from "@/store/useAuthStore";
+import { auth } from '@/lib/firebase.js';
 
 const Dashboard = () => {
+
+  const { user,setUser } = useAuthStore();
+  const navigate = useNavigate();
+
   // Mock data
   const myItineraries = [
     {
@@ -50,6 +57,16 @@ const Dashboard = () => {
     }
   ];
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      navigate("/auth");  // redireciona para a tela de login
+    } catch (error) {
+      console.error("Erro ao deslogar:", error);
+      // Aqui você pode mostrar um toast de erro, se quiser
+    }
+  };
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -72,7 +89,7 @@ const Dashboard = () => {
                 </Button>
               </Link>
               <Link to="/">
-                <Button variant="ghost" size="sm">
+                <Button onClick={handleLogout} variant="ghost" size="sm">
                   <LogOut className="h-4 w-4 mr-2" />
                   Sair
                 </Button>

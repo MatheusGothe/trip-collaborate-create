@@ -7,17 +7,39 @@ import { Separator } from "@/components/ui/separator";
 import { Link, useNavigate } from "react-router-dom";
 import { Plane, Mail, Lock, User, Chrome } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
+import { login, register } from "@/services/authService";
+import { getFirebaseErrorMessage } from "@/utils/firebaseErrors";
+import { toast } from "sonner"; // adicione isso se não tiver
+
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
-  const {user,setUser } = useAuthStore();
+  const { user, setUser } = useAuthStore();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Estados dos inputs
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
 
-    // Simular login/cadastro
-    navigate("/dashboard");
+    try {
+      if (isLogin) {
+        await login(email, password);
+      } else {
+        await register(email, password); // você pode adicionar o `name` na função, se necessário
+      }
+
+      // redirecionar ou limpar campos etc.
+      toast.success("Login/registro realizado com sucesso");
+      navigate("/dashboard"); // ou para a rota desejada
+    } catch (error: any) {
+      const firebaseCode = error?.code;
+      const mensagem = getFirebaseErrorMessage(firebaseCode);
+      toast.error(mensagem);
+      console.error("Erro Firebase:", firebaseCode);
+    }
   };
 
   return (
@@ -37,12 +59,12 @@ const AuthPage = () => {
               {isLogin ? "Bem-vindo de volta!" : "Crie sua conta"}
             </CardTitle>
             <CardDescription>
-              {isLogin 
-                ? "Entre para continuar planejando suas viagens" 
+              {isLogin
+                ? "Entre para continuar planejando suas viagens"
                 : "Comece a planejar viagens incríveis hoje"}
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
@@ -56,11 +78,13 @@ const AuthPage = () => {
                       placeholder="Seu nome"
                       className="pl-10"
                       required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                 </div>
               )}
-              
+
               <div className="space-y-2">
                 <Label htmlFor="email">E-mail</Label>
                 <div className="relative">
@@ -71,10 +95,12 @@ const AuthPage = () => {
                     placeholder="seu@email.com"
                     className="pl-10"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password">Senha</Label>
                 <div className="relative">
@@ -85,6 +111,8 @@ const AuthPage = () => {
                     placeholder="••••••••"
                     className="pl-10"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
