@@ -51,22 +51,22 @@ const App = () => {
         <BrowserRouter>
         <Routes>
   {/* Rota pública (visível só quando deslogado) */}
-  <Route element={<PublicRoute />}>
+  {/* <Route element={<PublicRoute />}> */}
     <Route path="/auth" element={<AuthPage />} />
-  </Route>
+  {/* </Route> */}
 
   {/* Rota pública geral */}
   <Route path="/" element={<LandingPage />} />
 
   {/* Rotas privadas (precisa estar logado) */}
-  <Route element={<PrivateRoute />}>
+  {/* <Route element={<PrivateRoute />}> */}
     <Route path="/dashboard" element={<Dashboard />} />
     <Route path="/create" element={<CreateItinerary />} />
     <Route path="/itinerary/:id" element={<ItineraryDetail />} />
     <Route path="/explore" element={<PublicItineraries />} />
     <Route path="/profile" element={<Profile />} />
     <Route path="/payment" element={<Payment />} />
-  </Route>
+  {/* </Route> */}
 
   {/* Rota para 404 */}
   <Route path="*" element={<NotFound />} />
